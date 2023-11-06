@@ -1,0 +1,7 @@
+SELECT TOP (1000) [Itemid]
+      ,[ItemType]
+      ,[ItemName]
+      ,[ItemCost]
+      ,[ItemDetails]
+      ,[Status]
+  FROM [Hotel Management System].[dbo].[Item]
