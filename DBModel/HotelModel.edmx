@@ -1,0 +1,901 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HotelDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="acctname" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="acctpass" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="acctstatus" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="creatorID" Type="int" />
+          <Property Name="roleID" Type="int" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stafffn" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="staffln" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="staffbdate" Type="datetime" Nullable="false" />
+          <Property Name="staffgender" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffcontact" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffemail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffsalary" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="acctID" Type="int" />
+          <Property Name="roleID" Type="int" />
+        </EntityType>
+        <EntityType Name="Guests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="guestfn" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="guestln" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="guestbdate" Type="datetime" Nullable="false" />
+          <Property Name="guestgender" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="guestHasReservation" Type="bit" Nullable="false" />
+          <Property Name="acctID" Type="int" />
+          <Property Name="roomID" Type="int" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="resScheduleCheckin" Type="datetime" Nullable="false" />
+          <Property Name="resScheduleCheckout" Type="datetime" Nullable="false" />
+          <Property Name="resAdults" Type="int" Nullable="false" />
+          <Property Name="resChildren" Type="int" Nullable="false" />
+          <Property Name="resCheckinDate" Type="datetime" />
+          <Property Name="resCheckoutDate" Type="datetime" />
+          <Property Name="acctID" Type="int" />
+          <Property Name="roomID" Type="int" />
+          <Property Name="guestID" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rolename" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roomname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="roomtype" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="roomprice" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="roomdesc" Type="varchar" MaxLength="255" />
+          <Property Name="roomoccupants" Type="int" Nullable="false" />
+          <Property Name="bookerAcctID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HotelDB.dbo.ViewGuest_Default' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewGuest_Default">
+          <Key>
+            <PropertyRef Name="Full Name" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="Account Username" />
+          </Key>
+          <Property Name="Full Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Birth Date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Account Username" Type="varchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HotelDB.dbo.ViewReservations_Default' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewReservations_Default">
+          <Key>
+            <PropertyRef Name="roomname" />
+            <PropertyRef Name="roomprice" />
+            <PropertyRef Name="resScheduleCheckin" />
+            <PropertyRef Name="resScheduleCheckout" />
+            <PropertyRef Name="resAdults" />
+            <PropertyRef Name="resChildren" />
+            <PropertyRef Name="Occupant Full Name" />
+          </Key>
+          <Property Name="roomname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="roomprice" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="resScheduleCheckin" Type="datetime" Nullable="false" />
+          <Property Name="resScheduleCheckout" Type="datetime" Nullable="false" />
+          <Property Name="resCheckinDate" Type="datetime" />
+          <Property Name="resCheckoutDate" Type="datetime" />
+          <Property Name="resAdults" Type="int" Nullable="false" />
+          <Property Name="resChildren" Type="int" Nullable="false" />
+          <Property Name="Occupant Full Name" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HotelDB.dbo.ViewRooms_Default' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewRooms_Default">
+          <Key>
+            <PropertyRef Name="roomname" />
+            <PropertyRef Name="roomtype" />
+            <PropertyRef Name="roomprice" />
+            <PropertyRef Name="roomoccupants" />
+            <PropertyRef Name="acctname" />
+          </Key>
+          <Property Name="roomname" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="roomtype" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="roomprice" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="roomoccupants" Type="int" Nullable="false" />
+          <Property Name="acctname" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="roomdesc" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Accounts__roleID__5441852A">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__acctI__628FA481">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__roleI__6383C8BA">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Guests__acctID__5CD6CB2B">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Guests" Type="Self.Guests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guests">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Guests__roomID__5DCAEF64">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Guests" Type="Self.Guests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guests">
+              <PropertyRef Name="roomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__acctI__66603565">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__guest__68487DD7">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="guestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__roomI__6754599E">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="roomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rooms__bookerAcc__5812160E">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="bookerAcctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_Account_Create_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="roleid" Type="int" Mode="In" />
+          <Parameter Name="creatorid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Guest_Create_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fn" Type="varchar" Mode="In" />
+          <Parameter Name="ln" Type="varchar" Mode="In" />
+          <Parameter Name="bdate" Type="datetime" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="aid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Guest_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="gid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Guest_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="gid" Type="int" Mode="In" />
+          <Parameter Name="fn" Type="varchar" Mode="In" />
+          <Parameter Name="ln" Type="varchar" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="bdate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Guest_Update_Booking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="gid" Type="int" Mode="In" />
+          <Parameter Name="fn" Type="varchar" Mode="In" />
+          <Parameter Name="ln" Type="varchar" Mode="In" />
+          <Parameter Name="gender" Type="varchar" Mode="In" />
+          <Parameter Name="bdate" Type="datetime" Mode="In" />
+          <Parameter Name="rid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Reservation_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="indate" Type="datetime" Mode="In" />
+          <Parameter Name="outdate" Type="datetime" Mode="In" />
+          <Parameter Name="adults" Type="int" Mode="In" />
+          <Parameter Name="children" Type="int" Mode="In" />
+          <Parameter Name="aid" Type="int" Mode="In" />
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="gid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Reservation_Update_CheckIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="checkindate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Reservation_Update_CheckOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="checkoutdate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Room_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Room_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="rname" Type="varchar" Mode="In" />
+          <Parameter Name="rtype" Type="varchar" Mode="In" />
+          <Parameter Name="rprice" Type="decimal" Mode="In" />
+          <Parameter Name="rdesc" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Room_Update_Avail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Room_Update_Occupy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="count" Type="int" Mode="In" />
+          <Parameter Name="aid" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="HotelDBModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewGuest_Default" EntityType="Self.ViewGuest_Default" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ViewGuest_Default].[Full Name] AS [Full Name], 
+[ViewGuest_Default].[Gender] AS [Gender], 
+[ViewGuest_Default].[Birth Date] AS [Birth Date], 
+[ViewGuest_Default].[Account Username] AS [Account Username]
+FROM [dbo].[ViewGuest_Default] AS [ViewGuest_Default]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewReservations_Default" EntityType="Self.ViewReservations_Default" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ViewReservations_Default].[roomname] AS [roomname], 
+[ViewReservations_Default].[roomprice] AS [roomprice], 
+[ViewReservations_Default].[resScheduleCheckin] AS [resScheduleCheckin], 
+[ViewReservations_Default].[resScheduleCheckout] AS [resScheduleCheckout], 
+[ViewReservations_Default].[resCheckinDate] AS [resCheckinDate], 
+[ViewReservations_Default].[resCheckoutDate] AS [resCheckoutDate], 
+[ViewReservations_Default].[resAdults] AS [resAdults], 
+[ViewReservations_Default].[resChildren] AS [resChildren], 
+[ViewReservations_Default].[Occupant Full Name] AS [Occupant Full Name]
+FROM [dbo].[ViewReservations_Default] AS [ViewReservations_Default]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewRooms_Default" EntityType="Self.ViewRooms_Default" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ViewRooms_Default].[roomname] AS [roomname], 
+[ViewRooms_Default].[roomtype] AS [roomtype], 
+[ViewRooms_Default].[roomprice] AS [roomprice], 
+[ViewRooms_Default].[roomoccupants] AS [roomoccupants], 
+[ViewRooms_Default].[acctname] AS [acctname], 
+[ViewRooms_Default].[roomdesc] AS [roomdesc]
+FROM [dbo].[ViewRooms_Default] AS [ViewRooms_Default]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Accounts__roleID__5441852A" Association="Self.FK__Accounts__roleID__5441852A">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__acctI__628FA481" Association="Self.FK__Employees__acctI__628FA481">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__roleI__6383C8BA" Association="Self.FK__Employees__roleI__6383C8BA">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Guests__acctID__5CD6CB2B" Association="Self.FK__Guests__acctID__5CD6CB2B">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Guests" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Guests__roomID__5DCAEF64" Association="Self.FK__Guests__roomID__5DCAEF64">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Guests" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__acctI__66603565" Association="Self.FK__Reservati__acctI__66603565">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__guest__68487DD7" Association="Self.FK__Reservati__guest__68487DD7">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__roomI__6754599E" Association="Self.FK__Reservati__roomI__6754599E">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rooms__bookerAcc__5812160E" Association="Self.FK__Rooms__bookerAcc__5812160E">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HotelDBEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="SP_Guest_Delete">
+          <Parameter Name="gid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Guest_Update">
+            <Parameter Name="gid" Mode="In" Type="Int32" />
+            <Parameter Name="fn" Mode="In" Type="String" />
+            <Parameter Name="ln" Mode="In" Type="String" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="bdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Guest_Update_Booking">
+            <Parameter Name="gid" Mode="In" Type="Int32" />
+            <Parameter Name="fn" Mode="In" Type="String" />
+            <Parameter Name="ln" Mode="In" Type="String" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="bdate" Mode="In" Type="DateTime" />
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Reservation_Update_CheckIn">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="checkindate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Reservation_Update_CheckOut">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="checkoutdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Room_Delete">
+          <Parameter Name="rid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Room_Update">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="rname" Mode="In" Type="String" />
+            <Parameter Name="rtype" Mode="In" Type="String" />
+            <Parameter Name="rprice" Mode="In" Type="Decimal" />
+            <Parameter Name="rdesc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Room_Update_Avail">
+          <Parameter Name="rid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Room_Update_Occupy">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="count" Mode="In" Type="Int32" />
+            <Parameter Name="aid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Reservation_Create">
+            <Parameter Name="indate" Mode="In" Type="DateTime" />
+            <Parameter Name="outdate" Mode="In" Type="DateTime" />
+            <Parameter Name="adults" Mode="In" Type="Int32" />
+            <Parameter Name="children" Mode="In" Type="Int32" />
+            <Parameter Name="aid" Mode="In" Type="Int32" />
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="gid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Account_Create_Register">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="roleid" Mode="In" Type="Int32" />
+            <Parameter Name="creatorid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Guest_Create_Register">
+            <Parameter Name="fn" Mode="In" Type="String" />
+            <Parameter Name="ln" Mode="In" Type="String" />
+            <Parameter Name="bdate" Mode="In" Type="DateTime" />
+            <Parameter Name="gender" Mode="In" Type="String" />
+            <Parameter Name="aid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Accounts" EntityType="HotelDBModel.Accounts" />
+          <EntitySet Name="Employees" EntityType="HotelDBModel.Employees" />
+          <EntitySet Name="Guests" EntityType="HotelDBModel.Guests" />
+          <EntitySet Name="Reservations" EntityType="HotelDBModel.Reservations" />
+          <EntitySet Name="Roles" EntityType="HotelDBModel.Roles" />
+          <EntitySet Name="Rooms" EntityType="HotelDBModel.Rooms" />
+          <EntitySet Name="ViewGuest_Default" EntityType="HotelDBModel.ViewGuest_Default" />
+          <EntitySet Name="ViewReservations_Default" EntityType="HotelDBModel.ViewReservations_Default" />
+          <EntitySet Name="ViewRooms_Default" EntityType="HotelDBModel.ViewRooms_Default" />
+          <AssociationSet Name="FK__Accounts__roleID__5441852A" Association="HotelDBModel.FK__Accounts__roleID__5441852A">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__acctI__628FA481" Association="HotelDBModel.FK__Employees__acctI__628FA481">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Guests__acctID__5CD6CB2B" Association="HotelDBModel.FK__Guests__acctID__5CD6CB2B">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Guests" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__acctI__66603565" Association="HotelDBModel.FK__Reservati__acctI__66603565">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rooms__bookerAcc__5812160E" Association="HotelDBModel.FK__Rooms__bookerAcc__5812160E">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employees__roleI__6383C8BA" Association="HotelDBModel.FK__Employees__roleI__6383C8BA">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Guests__roomID__5DCAEF64" Association="HotelDBModel.FK__Guests__roomID__5DCAEF64">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Guests" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__guest__68487DD7" Association="HotelDBModel.FK__Reservati__guest__68487DD7">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__roomI__6754599E" Association="HotelDBModel.FK__Reservati__roomI__6754599E">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="acctname" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="acctpass" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="acctstatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="creatorID" Type="Int32" />
+          <Property Name="roleID" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="HotelDBModel.FK__Accounts__roleID__5441852A" FromRole="Accounts" ToRole="Roles" />
+          <NavigationProperty Name="Employees" Relationship="HotelDBModel.FK__Employees__acctI__628FA481" FromRole="Accounts" ToRole="Employees" />
+          <NavigationProperty Name="Guests" Relationship="HotelDBModel.FK__Guests__acctID__5CD6CB2B" FromRole="Accounts" ToRole="Guests" />
+          <NavigationProperty Name="Reservations" Relationship="HotelDBModel.FK__Reservati__acctI__66603565" FromRole="Accounts" ToRole="Reservations" />
+          <NavigationProperty Name="Rooms" Relationship="HotelDBModel.FK__Rooms__bookerAcc__5812160E" FromRole="Accounts" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stafffn" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="staffln" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="staffbdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="staffgender" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="staffcontact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="staffemail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="staffsalary" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="acctID" Type="Int32" />
+          <Property Name="roleID" Type="Int32" />
+          <NavigationProperty Name="Accounts" Relationship="HotelDBModel.FK__Employees__acctI__628FA481" FromRole="Employees" ToRole="Accounts" />
+          <NavigationProperty Name="Roles" Relationship="HotelDBModel.FK__Employees__roleI__6383C8BA" FromRole="Employees" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Guests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="guestfn" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="guestln" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="guestbdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="guestgender" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="guestHasReservation" Type="Boolean" Nullable="false" />
+          <Property Name="acctID" Type="Int32" />
+          <Property Name="roomID" Type="Int32" />
+          <NavigationProperty Name="Accounts" Relationship="HotelDBModel.FK__Guests__acctID__5CD6CB2B" FromRole="Guests" ToRole="Accounts" />
+          <NavigationProperty Name="Rooms" Relationship="HotelDBModel.FK__Guests__roomID__5DCAEF64" FromRole="Guests" ToRole="Rooms" />
+          <NavigationProperty Name="Reservations" Relationship="HotelDBModel.FK__Reservati__guest__68487DD7" FromRole="Guests" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="resScheduleCheckin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="resScheduleCheckout" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="resAdults" Type="Int32" Nullable="false" />
+          <Property Name="resChildren" Type="Int32" Nullable="false" />
+          <Property Name="resCheckinDate" Type="DateTime" Precision="3" />
+          <Property Name="resCheckoutDate" Type="DateTime" Precision="3" />
+          <Property Name="acctID" Type="Int32" />
+          <Property Name="roomID" Type="Int32" />
+          <Property Name="guestID" Type="Int32" />
+          <NavigationProperty Name="Accounts" Relationship="HotelDBModel.FK__Reservati__acctI__66603565" FromRole="Reservations" ToRole="Accounts" />
+          <NavigationProperty Name="Guests" Relationship="HotelDBModel.FK__Reservati__guest__68487DD7" FromRole="Reservations" ToRole="Guests" />
+          <NavigationProperty Name="Rooms" Relationship="HotelDBModel.FK__Reservati__roomI__6754599E" FromRole="Reservations" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rolename" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Accounts" Relationship="HotelDBModel.FK__Accounts__roleID__5441852A" FromRole="Roles" ToRole="Accounts" />
+          <NavigationProperty Name="Employees" Relationship="HotelDBModel.FK__Employees__roleI__6383C8BA" FromRole="Roles" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roomname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="roomtype" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="roomprice" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="roomdesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="roomoccupants" Type="Int32" Nullable="false" />
+          <Property Name="bookerAcctID" Type="Int32" />
+          <NavigationProperty Name="Accounts" Relationship="HotelDBModel.FK__Rooms__bookerAcc__5812160E" FromRole="Rooms" ToRole="Accounts" />
+          <NavigationProperty Name="Guests" Relationship="HotelDBModel.FK__Guests__roomID__5DCAEF64" FromRole="Rooms" ToRole="Guests" />
+          <NavigationProperty Name="Reservations" Relationship="HotelDBModel.FK__Reservati__roomI__6754599E" FromRole="Rooms" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="ViewGuest_Default">
+          <Key>
+            <PropertyRef Name="Full_Name" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="Account_Username" />
+          </Key>
+          <Property Name="Full_Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Birth_Date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Account_Username" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewReservations_Default">
+          <Key>
+            <PropertyRef Name="roomname" />
+            <PropertyRef Name="roomprice" />
+            <PropertyRef Name="resScheduleCheckin" />
+            <PropertyRef Name="resScheduleCheckout" />
+            <PropertyRef Name="resAdults" />
+            <PropertyRef Name="resChildren" />
+            <PropertyRef Name="Occupant_Full_Name" />
+          </Key>
+          <Property Name="roomname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="roomprice" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="resScheduleCheckin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="resScheduleCheckout" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="resCheckinDate" Type="DateTime" Precision="3" />
+          <Property Name="resCheckoutDate" Type="DateTime" Precision="3" />
+          <Property Name="resAdults" Type="Int32" Nullable="false" />
+          <Property Name="resChildren" Type="Int32" Nullable="false" />
+          <Property Name="Occupant_Full_Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewRooms_Default">
+          <Key>
+            <PropertyRef Name="roomname" />
+            <PropertyRef Name="roomtype" />
+            <PropertyRef Name="roomprice" />
+            <PropertyRef Name="roomoccupants" />
+            <PropertyRef Name="acctname" />
+          </Key>
+          <Property Name="roomname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="roomtype" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="roomprice" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <Property Name="roomoccupants" Type="Int32" Nullable="false" />
+          <Property Name="acctname" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <Property Name="roomdesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Accounts__roleID__5441852A">
+          <End Type="HotelDBModel.Roles" Role="Roles" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Accounts" Role="Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__acctI__628FA481">
+          <End Type="HotelDBModel.Accounts" Role="Accounts" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Employees" Role="Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Guests__acctID__5CD6CB2B">
+          <End Type="HotelDBModel.Accounts" Role="Accounts" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Guests" Role="Guests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guests">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__acctI__66603565">
+          <End Type="HotelDBModel.Accounts" Role="Accounts" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Reservations" Role="Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="acctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rooms__bookerAcc__5812160E">
+          <End Type="HotelDBModel.Accounts" Role="Accounts" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Rooms" Role="Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="bookerAcctID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employees__roleI__6383C8BA">
+          <End Type="HotelDBModel.Roles" Role="Roles" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Employees" Role="Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Guests__roomID__5DCAEF64">
+          <End Type="HotelDBModel.Rooms" Role="Rooms" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Guests" Role="Guests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guests">
+              <PropertyRef Name="roomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__guest__68487DD7">
+          <End Type="HotelDBModel.Guests" Role="Guests" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Reservations" Role="Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="guestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__roomI__6754599E">
+          <End Type="HotelDBModel.Rooms" Role="Rooms" Multiplicity="0..1" />
+          <End Type="HotelDBModel.Reservations" Role="Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="roomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelDBModelStoreContainer" CdmEntityContainer="HotelDBEntities">
+          <FunctionImportMapping FunctionImportName="SP_Guest_Delete" FunctionName="HotelDBModel.Store.SP_Guest_Delete" />
+          <FunctionImportMapping FunctionImportName="SP_Guest_Update" FunctionName="HotelDBModel.Store.SP_Guest_Update" />
+          <FunctionImportMapping FunctionImportName="SP_Guest_Update_Booking" FunctionName="HotelDBModel.Store.SP_Guest_Update_Booking" />
+          <FunctionImportMapping FunctionImportName="SP_Reservation_Update_CheckIn" FunctionName="HotelDBModel.Store.SP_Reservation_Update_CheckIn" />
+          <FunctionImportMapping FunctionImportName="SP_Reservation_Update_CheckOut" FunctionName="HotelDBModel.Store.SP_Reservation_Update_CheckOut" />
+          <FunctionImportMapping FunctionImportName="SP_Room_Delete" FunctionName="HotelDBModel.Store.SP_Room_Delete" />
+          <FunctionImportMapping FunctionImportName="SP_Room_Update" FunctionName="HotelDBModel.Store.SP_Room_Update" />
+          <FunctionImportMapping FunctionImportName="SP_Room_Update_Avail" FunctionName="HotelDBModel.Store.SP_Room_Update_Avail" />
+          <FunctionImportMapping FunctionImportName="SP_Room_Update_Occupy" FunctionName="HotelDBModel.Store.SP_Room_Update_Occupy" />
+          <FunctionImportMapping FunctionImportName="SP_Reservation_Create" FunctionName="HotelDBModel.Store.SP_Reservation_Create" />
+          <FunctionImportMapping FunctionImportName="SP_Account_Create_Register" FunctionName="HotelDBModel.Store.SP_Account_Create_Register" />
+          <FunctionImportMapping FunctionImportName="SP_Guest_Create_Register" FunctionName="HotelDBModel.Store.SP_Guest_Create_Register" />
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="HotelDBModel.Accounts">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="creatorID" ColumnName="creatorID" />
+                <ScalarProperty Name="acctstatus" ColumnName="acctstatus" />
+                <ScalarProperty Name="acctpass" ColumnName="acctpass" />
+                <ScalarProperty Name="acctname" ColumnName="acctname" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="HotelDBModel.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="acctID" ColumnName="acctID" />
+                <ScalarProperty Name="staffsalary" ColumnName="staffsalary" />
+                <ScalarProperty Name="staffemail" ColumnName="staffemail" />
+                <ScalarProperty Name="staffcontact" ColumnName="staffcontact" />
+                <ScalarProperty Name="staffgender" ColumnName="staffgender" />
+                <ScalarProperty Name="staffbdate" ColumnName="staffbdate" />
+                <ScalarProperty Name="staffln" ColumnName="staffln" />
+                <ScalarProperty Name="stafffn" ColumnName="stafffn" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guests">
+            <EntityTypeMapping TypeName="HotelDBModel.Guests">
+              <MappingFragment StoreEntitySet="Guests">
+                <ScalarProperty Name="roomID" ColumnName="roomID" />
+                <ScalarProperty Name="acctID" ColumnName="acctID" />
+                <ScalarProperty Name="guestHasReservation" ColumnName="guestHasReservation" />
+                <ScalarProperty Name="guestgender" ColumnName="guestgender" />
+                <ScalarProperty Name="guestbdate" ColumnName="guestbdate" />
+                <ScalarProperty Name="guestln" ColumnName="guestln" />
+                <ScalarProperty Name="guestfn" ColumnName="guestfn" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="HotelDBModel.Reservations">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="guestID" ColumnName="guestID" />
+                <ScalarProperty Name="roomID" ColumnName="roomID" />
+                <ScalarProperty Name="acctID" ColumnName="acctID" />
+                <ScalarProperty Name="resCheckoutDate" ColumnName="resCheckoutDate" />
+                <ScalarProperty Name="resCheckinDate" ColumnName="resCheckinDate" />
+                <ScalarProperty Name="resChildren" ColumnName="resChildren" />
+                <ScalarProperty Name="resAdults" ColumnName="resAdults" />
+                <ScalarProperty Name="resScheduleCheckout" ColumnName="resScheduleCheckout" />
+                <ScalarProperty Name="resScheduleCheckin" ColumnName="resScheduleCheckin" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="HotelDBModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="rolename" ColumnName="rolename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="HotelDBModel.Rooms">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="bookerAcctID" ColumnName="bookerAcctID" />
+                <ScalarProperty Name="roomoccupants" ColumnName="roomoccupants" />
+                <ScalarProperty Name="roomdesc" ColumnName="roomdesc" />
+                <ScalarProperty Name="roomprice" ColumnName="roomprice" />
+                <ScalarProperty Name="roomtype" ColumnName="roomtype" />
+                <ScalarProperty Name="roomname" ColumnName="roomname" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewGuest_Default">
+            <EntityTypeMapping TypeName="HotelDBModel.ViewGuest_Default">
+              <MappingFragment StoreEntitySet="ViewGuest_Default">
+                <ScalarProperty Name="Account_Username" ColumnName="Account Username" />
+                <ScalarProperty Name="Birth_Date" ColumnName="Birth Date" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewReservations_Default">
+            <EntityTypeMapping TypeName="HotelDBModel.ViewReservations_Default">
+              <MappingFragment StoreEntitySet="ViewReservations_Default">
+                <ScalarProperty Name="Occupant_Full_Name" ColumnName="Occupant Full Name" />
+                <ScalarProperty Name="resChildren" ColumnName="resChildren" />
+                <ScalarProperty Name="resAdults" ColumnName="resAdults" />
+                <ScalarProperty Name="resCheckoutDate" ColumnName="resCheckoutDate" />
+                <ScalarProperty Name="resCheckinDate" ColumnName="resCheckinDate" />
+                <ScalarProperty Name="resScheduleCheckout" ColumnName="resScheduleCheckout" />
+                <ScalarProperty Name="resScheduleCheckin" ColumnName="resScheduleCheckin" />
+                <ScalarProperty Name="roomprice" ColumnName="roomprice" />
+                <ScalarProperty Name="roomname" ColumnName="roomname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewRooms_Default">
+            <EntityTypeMapping TypeName="HotelDBModel.ViewRooms_Default">
+              <MappingFragment StoreEntitySet="ViewRooms_Default">
+                <ScalarProperty Name="roomdesc" ColumnName="roomdesc" />
+                <ScalarProperty Name="acctname" ColumnName="acctname" />
+                <ScalarProperty Name="roomoccupants" ColumnName="roomoccupants" />
+                <ScalarProperty Name="roomprice" ColumnName="roomprice" />
+                <ScalarProperty Name="roomtype" ColumnName="roomtype" />
+                <ScalarProperty Name="roomname" ColumnName="roomname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
